@@ -35,7 +35,22 @@ class UserHistoryController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return view('user.history', compact('diagnoses'));
+        // Get additional statistics
+        $totalDiagnoses = Diagnosis::where('user_id', $user->id)->count();
+        $monthlyDiagnoses = Diagnosis::where('user_id', $user->id)
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->count();
+        $lastDiagnosis = Diagnosis::where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        return view('user.history-clean', compact(
+            'diagnoses',
+            'totalDiagnoses',
+            'monthlyDiagnoses',
+            'lastDiagnosis'
+        ));
     }
 
     /**

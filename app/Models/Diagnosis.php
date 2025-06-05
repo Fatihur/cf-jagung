@@ -42,6 +42,26 @@ class Diagnosis extends Model
     }
 
     /**
+     * Get the actual symptom objects based on selected_symptoms IDs
+     */
+    public function getSymptoms()
+    {
+        if (!is_array($this->selected_symptoms) || empty($this->selected_symptoms)) {
+            return collect();
+        }
+
+        return \App\Models\Symptom::whereIn('id', $this->selected_symptoms)->get();
+    }
+
+    /**
+     * Get symptoms attribute (for compatibility)
+     */
+    public function getSymptomsAttribute()
+    {
+        return $this->getSymptoms();
+    }
+
+    /**
      * Get top result for display
      */
     public function getTopResultAttribute()
