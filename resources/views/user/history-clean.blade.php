@@ -212,62 +212,7 @@
                 </form>
             </div>
 
-            <!-- Statistics Summary -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
-                <!-- Total Diagnosis Card -->
-                <div style="background: linear-gradient(135deg, #dbeafe, #bfdbfe); border-radius: 1rem; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border: 1px solid #93c5fd;">
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <div style="width: 3rem; height: 3rem; background: linear-gradient(135deg, #3b82f6, #2563eb); border-radius: 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
-                            <i class="fas fa-chart-bar"></i>
-                        </div>
-                        <div>
-                            <h3 style="font-size: 2rem; font-weight: 700; color: #1e40af; margin: 0;">{{ $diagnoses->total() ?? 0 }}</h3>
-                            <p style="color: #3730a3; font-weight: 500; margin: 0;">Total Diagnosis</p>
-                            <p style="color: #6366f1; font-size: 0.875rem; margin: 0;">Semua waktu</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Monthly Diagnosis Card -->
-                <div style="background: linear-gradient(135deg, #dcfce7, #bbf7d0); border-radius: 1rem; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border: 1px solid #86efac;">
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <div style="width: 3rem; height: 3rem; background: linear-gradient(135deg, #10b981, #059669); border-radius: 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
-                            <i class="fas fa-calendar-alt"></i>
-                        </div>
-                        <div>
-                            <h3 style="font-size: 2rem; font-weight: 700; color: #065f46; margin: 0;">{{ $monthlyDiagnoses ?? 0 }}</h3>
-                            <p style="color: #047857; font-weight: 500; margin: 0;">Diagnosis Bulan Ini</p>
-                            <p style="color: #059669; font-size: 0.875rem; margin: 0;">{{ now()->format('F Y') }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Last Activity Card -->
-                <div style="background: linear-gradient(135deg, #fae8ff, #e9d5ff); border-radius: 1rem; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border: 1px solid #c4b5fd;">
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <div style="width: 3rem; height: 3rem; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div>
-                            <h3 style="font-size: 1.25rem; font-weight: 600; color: #6b21a8; margin: 0;">
-                                @if(isset($lastDiagnosis) && $lastDiagnosis)
-                                    {{ $lastDiagnosis->created_at->format('d M Y') }}
-                                @else
-                                    Belum ada
-                                @endif
-                            </h3>
-                            <p style="color: #7c2d92; font-weight: 500; margin: 0;">Aktivitas Terakhir</p>
-                            <p style="color: #8b5cf6; font-size: 0.875rem; margin: 0;">
-                                @if(isset($lastDiagnosis) && $lastDiagnosis)
-                                    {{ $lastDiagnosis->created_at->diffForHumans() }}
-                                @else
-                                    -
-                                @endif
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        
 
             <!-- Diagnosis List -->
             <div style="display: flex; flex-direction: column; gap: 1.5rem;">
@@ -280,9 +225,41 @@
                         <div style="background: linear-gradient(135deg, #f8fafc, #f1f5f9); padding: 1.5rem; border-bottom: 1px solid #e5e7eb;">
                             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
                                 <div>
-                                    <h4 style="font-size: 1.25rem; font-weight: 600; color: #1f2937; margin: 0 0 0.5rem 0;">
-                                        Diagnosis #{{ $diagnosis->id }}
+                                    @php
+                                        $results = null;
+                                        if (is_string($diagnosis->results)) {
+                                            $results = json_decode($diagnosis->results, true);
+                                        } elseif (is_array($diagnosis->results)) {
+                                            $results = $diagnosis->results;
+                                        }
+
+                                        $topResult = null;
+                                        $diagnosisTitle = "Diagnosis #" . $diagnosis->id;
+
+                                        if ($results && is_array($results)) {
+                                            $topResult = collect($results)->sortByDesc('cf_value')->first();
+                                            if ($topResult && isset($topResult['disease']['name'])) {
+                                                $diagnosisTitle = $topResult['disease']['name'];
+                                            }
+                                        }
+                                    @endphp
+                                    <h4 style="font-size: 1.25rem; font-weight: 600; color: #1f2937; margin: 0 0 0.25rem 0;">
+                                        {{ $diagnosisTitle }}
                                     </h4>
+                                    @if($topResult && isset($topResult['disease']['name']))
+                                        <p style="font-size: 0.875rem; color: #6b7280; margin: 0 0 0.5rem 0; font-weight: 500;">
+                                            <i class="fas fa-hashtag" style="margin-right: 0.25rem; color: #9ca3af;"></i>
+                                            Diagnosis #{{ $diagnosis->id }}
+                                            @if(isset($topResult['disease']['code']))
+                                                • {{ $topResult['disease']['code'] }}
+                                            @endif
+                                        </p>
+                                    @else
+                                        <p style="font-size: 0.875rem; color: #6b7280; margin: 0 0 0.5rem 0; font-weight: 500;">
+                                            <i class="fas fa-hashtag" style="margin-right: 0.25rem; color: #9ca3af;"></i>
+                                            Diagnosis #{{ $diagnosis->id }} • Tidak ada hasil
+                                        </p>
+                                    @endif
                                     <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
                                         <span style="display: inline-flex; align-items: center; gap: 0.25rem; color: #6b7280; font-size: 0.875rem;">
                                             <i class="fas fa-calendar" style="margin-right: 0.25rem;"></i>
@@ -344,54 +321,75 @@
                                 <!-- Results -->
                                 <div>
                                     <h5 style="font-size: 1rem; font-weight: 600; color: #374151; margin: 0 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
-                                        <i class="fas fa-bullseye" style="color: #f59e0b;"></i>
-                                        Hasil Diagnosis
+                                        <i class="fas fa-chart-line" style="color: #f59e0b;"></i>
+                                        Tingkat Kepercayaan
                                     </h5>
                                     @php
-                                        $results = null;
+                                        $cardResults = null;
                                         if (is_string($diagnosis->results)) {
-                                            $results = json_decode($diagnosis->results, true);
+                                            $cardResults = json_decode($diagnosis->results, true);
                                         } elseif (is_array($diagnosis->results)) {
-                                            $results = $diagnosis->results;
+                                            $cardResults = $diagnosis->results;
                                         }
 
-                                        $topResult = null;
-                                        if ($results && is_array($results)) {
-                                            $topResult = collect($results)->sortByDesc('cf_value')->first();
+                                        $cardTopResult = null;
+                                        if ($cardResults && is_array($cardResults)) {
+                                            $cardTopResult = collect($cardResults)->sortByDesc('cf_value')->first();
                                         }
                                     @endphp
-                                    
-                                    @if($topResult && isset($topResult['disease']))
+
+                                    @if($cardTopResult && isset($cardTopResult['disease']))
                                         <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                                            <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: linear-gradient(135deg, #fef3c7, #fde68a); border: 1px solid #f59e0b; border-radius: 0.5rem;">
-                                                <span style="display: inline-flex; align-items: center; padding: 0.5rem; background: #f59e0b; color: white; border-radius: 0.5rem; font-weight: 600; font-size: 0.875rem;">
-                                                    {{ $topResult['disease']['code'] ?? 'N/A' }}
-                                                </span>
-                                                <div style="flex: 1;">
-                                                    <div style="font-weight: 600; color: #92400e; font-size: 1rem;">
-                                                        {{ $topResult['disease']['name'] ?? 'Tidak diketahui' }}
+                                            <!-- Confidence Level Display -->
+                                            <div style="padding: 1rem; background: linear-gradient(135deg, #fef3c7, #fde68a); border: 1px solid #f59e0b; border-radius: 0.75rem;">
+                                                <div style="text-align: center;">
+                                                    @php
+                                                        $percentage = ($cardTopResult['cf_value'] ?? 0) * 100;
+                                                        $confidenceColor = $percentage >= 70 ? '#059669' : ($percentage >= 50 ? '#f59e0b' : '#dc2626');
+                                                        $confidenceText = $percentage >= 70 ? 'Tinggi' : ($percentage >= 50 ? 'Sedang' : 'Rendah');
+                                                        $confidenceIcon = $percentage >= 70 ? 'fas fa-check-circle' : ($percentage >= 50 ? 'fas fa-exclamation-triangle' : 'fas fa-times-circle');
+                                                    @endphp
+                                                    <div style="font-size: 2.5rem; font-weight: 700; color: {{ $confidenceColor }}; margin-bottom: 0.5rem;">
+                                                        {{ number_format($percentage, 1) }}%
                                                     </div>
-                                                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.25rem;">
-                                                        <span style="color: #78716c; font-size: 0.875rem;">Tingkat Kepercayaan:</span>
-                                                        <span style="font-weight: 700; color: #dc2626; font-size: 1rem;">
-                                                            {{ number_format(($topResult['cf_value'] ?? 0) * 100, 1) }}%
-                                                        </span>
-                                                        @php
-                                                            $percentage = ($topResult['cf_value'] ?? 0) * 100;
-                                                            $confidenceColor = $percentage >= 70 ? '#059669' : ($percentage >= 50 ? '#f59e0b' : '#dc2626');
-                                                            $confidenceText = $percentage >= 70 ? 'Tinggi' : ($percentage >= 50 ? 'Sedang' : 'Rendah');
-                                                        @endphp
-                                                        <span style="display: inline-flex; align-items: center; padding: 0.25rem 0.5rem; background: {{ $confidenceColor }}; color: white; border-radius: 9999px; font-size: 0.75rem; font-weight: 500;">
-                                                            {{ $confidenceText }}
+                                                    <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                                        <i class="{{ $confidenceIcon }}" style="color: {{ $confidenceColor }};"></i>
+                                                        <span style="font-weight: 600; color: #92400e;">
+                                                            Kepercayaan {{ $confidenceText }}
                                                         </span>
                                                     </div>
+                                                    <p style="font-size: 0.875rem; color: #78716c; margin: 0;">
+                                                        @if($percentage >= 70)
+                                                            Diagnosis sangat akurat
+                                                        @elseif($percentage >= 50)
+                                                            Diagnosis cukup akurat
+                                                        @else
+                                                            Perlu diagnosis ulang
+                                                        @endif
+                                                    </p>
                                                 </div>
                                             </div>
+
+                                            <!-- Additional Results -->
+                                            @if(count($cardResults) > 1)
+                                                <div style="padding: 0.75rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0.5rem;">
+                                                    <p style="font-size: 0.875rem; color: #64748b; margin: 0 0 0.5rem 0; font-weight: 500;">
+                                                        <i class="fas fa-list" style="margin-right: 0.25rem;"></i>
+                                                        Kemungkinan lain:
+                                                    </p>
+                                                    @foreach(collect($cardResults)->skip(1)->take(2) as $result)
+                                                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.25rem 0; font-size: 0.875rem;">
+                                                            <span style="color: #475569;">{{ $result['disease']['name'] ?? 'Unknown' }}</span>
+                                                            <span style="color: #64748b; font-weight: 500;">{{ number_format(($result['cf_value'] ?? 0) * 100, 1) }}%</span>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            @endif
                                         </div>
                                     @else
                                         <div style="text-align: center; padding: 2rem; color: #9ca3af; font-style: italic;">
                                             <div style="font-size: 2rem; margin-bottom: 0.5rem;">
-                                                <i class="fas fa-bullseye"></i>
+                                                <i class="fas fa-chart-line"></i>
                                             </div>
                                             <p style="margin: 0;">Tidak ada hasil diagnosis</p>
                                         </div>
