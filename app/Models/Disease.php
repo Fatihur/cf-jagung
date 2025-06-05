@@ -47,4 +47,22 @@ class Disease extends Model
     {
         return $this->hasMany(DiseaseSymptomRule::class);
     }
+
+    /**
+     * Alias for rules() method for backward compatibility
+     */
+    public function diseaseSymptomRules(): HasMany
+    {
+        return $this->rules();
+    }
+
+    /**
+     * Get diagnoses that resulted in this disease
+     */
+    public function diagnoses()
+    {
+        // This would require a more complex query to get diagnoses where this disease was the result
+        // For now, we'll return an empty collection
+        return collect();
+    }
 }

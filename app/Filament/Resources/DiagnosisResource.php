@@ -83,8 +83,10 @@ class DiagnosisResource extends Resource
                                 if (is_array($state)) {
                                     $formatted = [];
                                     foreach ($state as $index => $result) {
-                                        $rank = $index + 1;
-                                        $formatted[] = "{$rank}. {$result['disease']['name']} - {$result['percentage']}% (CF: {$result['cf_value']})";
+                                        if (isset($result['disease']['name']) && isset($result['percentage']) && isset($result['cf_value'])) {
+                                            $rank = $index + 1;
+                                            $formatted[] = "{$rank}. {$result['disease']['name']} - {$result['percentage']}% (CF: {$result['cf_value']})";
+                                        }
                                     }
                                     return implode("\n", $formatted);
                                 }
@@ -117,9 +119,11 @@ class DiagnosisResource extends Resource
                 Tables\Columns\TextColumn::make('results')
                     ->label('Hasil Teratas')
                     ->formatStateUsing(function ($state) {
-                        if (is_array($state) && !empty($state)) {
+                        if (is_array($state) && !empty($state) && isset($state[0])) {
                             $top = $state[0];
-                            return $top['disease']['name'] . ' (' . $top['percentage'] . '%)';
+                            if (isset($top['disease']['name']) && isset($top['percentage'])) {
+                                return $top['disease']['name'] . ' (' . $top['percentage'] . '%)';
+                            }
                         }
                         return '-';
                     }),
