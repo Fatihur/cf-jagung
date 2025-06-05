@@ -21,47 +21,116 @@ class DiseaseResource extends Resource
     protected static ?string $navigationLabel = 'Penyakit';
     protected static ?string $modelLabel = 'Penyakit';
     protected static ?string $pluralModelLabel = 'Penyakit';
+    protected static ?string $navigationGroup = 'Data Master';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('code')
-                    ->label('Kode Penyakit')
-                    ->maxLength(10)
-                    ->unique(ignoreRecord: true)
-                    ->placeholder('Otomatis: P001, P002, ...')
-                    ->helperText('Kode akan dibuat otomatis jika dikosongkan')
-                    ->disabled(fn ($record) => $record !== null), // Disable editing existing codes
+                Forms\Components\Section::make('Informasi Dasar')
+                    ->description('Informasi dasar tentang penyakit')
+                    ->schema([
+                        Forms\Components\Grid::make(2)
+                            ->schema([
+                                Forms\Components\TextInput::make('code')
+                                    ->label('Kode Penyakit')
+                                    ->maxLength(10)
+                                    ->unique(ignoreRecord: true)
+                                    ->placeholder('Otomatis: P01, P02, ...')
+                                    ->helperText('Kode akan dibuat otomatis jika dikosongkan')
+                                    ->disabled(fn ($record) => $record !== null)
+                                    ->prefixIcon('heroicon-m-hashtag'),
 
-                Forms\Components\TextInput::make('name')
-                    ->label('Nama Penyakit')
-                    ->required()
-                    ->maxLength(255),
+                                Forms\Components\TextInput::make('name')
+                                    ->label('Nama Penyakit')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->prefixIcon('heroicon-m-bug-ant'),
+                            ]),
 
-                Forms\Components\Textarea::make('description')
-                    ->label('Deskripsi')
-                    ->required()
-                    ->rows(3),
+                        Forms\Components\FileUpload::make('image_path')
+                            ->label('Gambar Penyakit')
+                            ->image()
+                            ->directory('diseases')
+                            ->visibility('public')
+                            ->imageEditor()
+                            ->imageEditorAspectRatios([
+                                '16:9',
+                                '4:3',
+                                '1:1',
+                            ])
+                            ->helperText('Upload gambar untuk membantu identifikasi penyakit'),
+                    ])
+                    ->collapsible(),
 
-                Forms\Components\Textarea::make('causes')
-                    ->label('Penyebab')
-                    ->rows(3),
+                Forms\Components\Section::make('Deskripsi Detail')
+                    ->description('Informasi detail tentang penyakit')
+                    ->schema([
+                        Forms\Components\RichEditor::make('description')
+                            ->label('Deskripsi Penyakit')
+                            ->required()
+                            ->toolbarButtons([
+                                'bold',
+                                'italic',
+                                'underline',
+                                'bulletList',
+                                'orderedList',
+                                'link',
+                                'undo',
+                                'redo',
+                            ])
+                            ->helperText('Deskripsi umum tentang penyakit ini'),
 
-                Forms\Components\Textarea::make('symptoms_description')
-                    ->label('Deskripsi Gejala')
-                    ->rows(3),
+                        Forms\Components\RichEditor::make('causes')
+                            ->label('Penyebab Penyakit')
+                            ->toolbarButtons([
+                                'bold',
+                                'italic',
+                                'underline',
+                                'bulletList',
+                                'orderedList',
+                                'link',
+                                'undo',
+                                'redo',
+                            ])
+                            ->helperText('Jelaskan penyebab utama penyakit ini'),
 
-                Forms\Components\Textarea::make('control_methods')
-                    ->label('Metode Pengendalian')
-                    ->rows(4),
+                        Forms\Components\RichEditor::make('symptoms_description')
+                            ->label('Deskripsi Gejala')
+                            ->toolbarButtons([
+                                'bold',
+                                'italic',
+                                'underline',
+                                'bulletList',
+                                'orderedList',
+                                'link',
+                                'undo',
+                                'redo',
+                            ])
+                            ->helperText('Deskripsi detail gejala-gejala yang muncul'),
+                    ])
+                    ->collapsible(),
 
-                Forms\Components\FileUpload::make('image_path')
-                    ->label('Gambar')
-                    ->image()
-                    ->directory('diseases')
-                    ->visibility('public'),
-            ]);
+                Forms\Components\Section::make('Pengendalian')
+                    ->description('Metode pengendalian dan pencegahan')
+                    ->schema([
+                        Forms\Components\RichEditor::make('control_methods')
+                            ->label('Metode Pengendalian')
+                            ->toolbarButtons([
+                                'bold',
+                                'italic',
+                                'underline',
+                                'bulletList',
+                                'orderedList',
+                                'link',
+                                'undo',
+                                'redo',
+                            ])
+                            ->helperText('Langkah-langkah pengendalian dan pencegahan penyakit'),
+                    ])
+                    ->collapsible(),
+            ])
+            ->columns(1);
     }
 
     public static function table(Table $table): Table

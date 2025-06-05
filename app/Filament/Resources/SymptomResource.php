@@ -21,28 +21,51 @@ class SymptomResource extends Resource
     protected static ?string $navigationLabel = 'Gejala';
     protected static ?string $modelLabel = 'Gejala';
     protected static ?string $pluralModelLabel = 'Gejala';
+    protected static ?string $navigationGroup = 'Data Master';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('code')
-                    ->label('Kode Gejala')
-                    ->maxLength(10)
-                    ->unique(ignoreRecord: true)
-                    ->placeholder('Otomatis: G001, G002, ...')
-                    ->helperText('Kode akan dibuat otomatis jika dikosongkan')
-                    ->disabled(fn ($record) => $record !== null), // Disable editing existing codes
+                Forms\Components\Section::make('Informasi Gejala')
+                    ->description('Informasi dasar tentang gejala penyakit')
+                    ->schema([
+                        Forms\Components\Grid::make(2)
+                            ->schema([
+                                Forms\Components\TextInput::make('code')
+                                    ->label('Kode Gejala')
+                                    ->maxLength(10)
+                                    ->unique(ignoreRecord: true)
+                                    ->placeholder('Otomatis: G01, G02, ...')
+                                    ->helperText('Kode akan dibuat otomatis jika dikosongkan')
+                                    ->disabled(fn ($record) => $record !== null)
+                                    ->prefixIcon('heroicon-m-hashtag'),
 
-                Forms\Components\TextInput::make('name')
-                    ->label('Nama Gejala')
-                    ->required()
-                    ->maxLength(255),
+                                Forms\Components\TextInput::make('name')
+                                    ->label('Nama Gejala')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->prefixIcon('heroicon-m-clipboard-document-list'),
+                            ]),
 
-                Forms\Components\Textarea::make('description')
-                    ->label('Deskripsi')
-                    ->rows(3),
-            ]);
+                        Forms\Components\RichEditor::make('description')
+                            ->label('Deskripsi Gejala')
+                            ->toolbarButtons([
+                                'bold',
+                                'italic',
+                                'underline',
+                                'bulletList',
+                                'orderedList',
+                                'link',
+                                'undo',
+                                'redo',
+                            ])
+                            ->helperText('Deskripsi detail tentang gejala ini dan bagaimana cara mengidentifikasinya')
+                            ->columnSpanFull(),
+                    ])
+                    ->collapsible(),
+            ])
+            ->columns(1);
     }
 
     public static function table(Table $table): Table
