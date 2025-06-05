@@ -68,20 +68,28 @@
                             </div>
                         </div>
 
-                        <div class="flex items-center gap-3 mt-4 lg:mt-0">
-                            <a href="{{ route('user.diagnosis.show', $diagnosis->id) }}" 
+                        <div class="flex items-center gap-2 mt-4 lg:mt-0">
+                            <a href="{{ route('user.diagnosis.show', $diagnosis->id) }}"
                                class="inline-flex items-center px-3 py-2 border border-green-300 text-sm leading-4 font-medium rounded-md text-green-700 bg-green-50 hover:bg-green-100 transition duration-150 ease-in-out">
                                 <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                                 </svg>
-                                Lihat Detail
+                                Detail
                             </a>
-                            
+
+                            <a href="{{ route('diagnosis.export.pdf', $diagnosis->id) }}"
+                               class="inline-flex items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-700 bg-blue-50 hover:bg-blue-100 transition duration-150 ease-in-out">
+                                <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                PDF
+                            </a>
+
                             <form action="{{ route('user.diagnosis.destroy', $diagnosis->id) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" 
+                                <button type="submit"
                                         onclick="return confirm('Apakah Anda yakin ingin menghapus riwayat diagnosis ini?')"
                                         class="inline-flex items-center px-3 py-2 border border-red-300 text-sm leading-4 font-medium rounded-md text-red-700 bg-red-50 hover:bg-red-100 transition duration-150 ease-in-out">
                                     <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
