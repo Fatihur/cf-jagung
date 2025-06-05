@@ -15,79 +15,39 @@ class SymptomSeeder extends Seeder
     {
         $symptoms = [
             [
-                'code' => 'G001',
-                'name' => 'Bercak coklat pada daun',
-                'description' => 'Munculnya bercak-bercak berwarna coklat pada permukaan daun jagung'
+                'code' => 'G01',
+                'name' => 'Bercak lonjong keabu-abuan pada daun',
+                'description' => 'Munculnya bercak-bercak berbentuk lonjong dengan warna keabu-abuan pada permukaan daun jagung. Bercak ini biasanya dimulai sebagai titik kecil kemudian berkembang menjadi bercak memanjang yang mengikuti arah tulang daun.'
             ],
             [
-                'code' => 'G002',
-                'name' => 'Daun menguning',
-                'description' => 'Perubahan warna daun dari hijau menjadi kuning'
+                'code' => 'G02',
+                'name' => 'Daun mengering, dimulai dari ujung daun',
+                'description' => 'Daun jagung mengalami pengeringan yang dimulai dari bagian ujung daun dan secara bertahap menyebar ke arah pangkal daun. Proses pengeringan ini menyebabkan daun menjadi coklat dan rapuh.'
             ],
             [
-                'code' => 'G003',
-                'name' => 'Garis putih pada daun',
-                'description' => 'Munculnya garis-garis putih sejajar dengan tulang daun'
+                'code' => 'G03',
+                'name' => 'Terdapat serbuk berwarna karat pada daun',
+                'description' => 'Munculnya serbuk halus berwarna karat (orange-coklat) pada permukaan daun, terutama pada bagian bawah daun. Serbuk ini merupakan spora jamur yang mudah rontok jika daun disentuh atau tertiup angin.'
             ],
             [
-                'code' => 'G004',
-                'name' => 'Pertumbuhan terhambat',
-                'description' => 'Tanaman tumbuh lebih pendek dari normal'
+                'code' => 'G04',
+                'name' => 'Bercak kecil basah (embun tepung) di daun',
+                'description' => 'Terdapat bercak-bercak kecil yang tampak basah seperti embun tepung pada permukaan daun. Bercak ini biasanya berwarna putih keabu-abuan dan terasa lembab saat disentuh.'
             ],
             [
-                'code' => 'G005',
-                'name' => 'Bintik karat pada daun',
-                'description' => 'Bintik-bintik kecil berwarna coklat kemerahan seperti karat'
+                'code' => 'G05',
+                'name' => 'Pangkal batang membusuk dan berwarna gelap',
+                'description' => 'Bagian pangkal batang mengalami pembusukan dengan perubahan warna menjadi gelap (coklat kehitaman). Area yang membusuk terasa lunak dan mudah hancur jika ditekan.'
             ],
             [
-                'code' => 'G006',
-                'name' => 'Batang lunak',
-                'description' => 'Batang terasa lunak dan mudah ditekan'
+                'code' => 'G06',
+                'name' => 'Tanaman layu secara keseluruhan',
+                'description' => 'Seluruh bagian tanaman menunjukkan gejala layu meskipun kondisi air dan kelembaban tanah cukup. Daun terlihat lemas, menggantung, dan kehilangan turgiditas.'
             ],
             [
-                'code' => 'G007',
-                'name' => 'Tanaman mudah rebah',
-                'description' => 'Tanaman mudah tumbang atau rebah'
-            ],
-            [
-                'code' => 'G008',
-                'name' => 'Daun mengering dari ujung',
-                'description' => 'Daun mulai mengering dimulai dari ujung daun'
-            ],
-            [
-                'code' => 'G009',
-                'name' => 'Tongkol tidak terbentuk',
-                'description' => 'Tongkol jagung tidak terbentuk atau abnormal'
-            ],
-            [
-                'code' => 'G010',
-                'name' => 'Spora mudah rontok',
-                'description' => 'Spora pada daun mudah rontok jika disentuh'
-            ],
-            [
-                'code' => 'G011',
-                'name' => 'Batang berongga',
-                'description' => 'Bagian dalam batang kosong atau berongga'
-            ],
-            [
-                'code' => 'G012',
-                'name' => 'Daun layu',
-                'description' => 'Daun tampak layu dan tidak segar'
-            ],
-            [
-                'code' => 'G013',
-                'name' => 'Bercak memanjang abu-abu',
-                'description' => 'Bercak memanjang berwarna abu-abu pada daun'
-            ],
-            [
-                'code' => 'G014',
-                'name' => 'Daun kering dan mati',
-                'description' => 'Daun mengering dan mati secara bertahap'
-            ],
-            [
-                'code' => 'G015',
-                'name' => 'Pertumbuhan abnormal',
-                'description' => 'Pertumbuhan tanaman tidak normal atau terdistorsi'
+                'code' => 'G07',
+                'name' => 'Biji pada tongkol tidak terisi penuh',
+                'description' => 'Tongkol jagung menunjukkan biji-biji yang tidak terisi penuh atau kosong. Hal ini disebabkan oleh gangguan proses fotosintesis dan translokasi nutrisi akibat kerusakan pada daun.'
             ],
         ];
 

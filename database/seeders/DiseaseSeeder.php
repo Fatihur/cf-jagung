@@ -15,66 +15,44 @@ class DiseaseSeeder extends Seeder
     {
         $diseases = [
             [
-                'code' => 'P001',
-                'name' => 'Bercak Daun (Leaf Blight)',
-                'description' => 'Penyakit yang disebabkan oleh jamur yang menyerang daun jagung, menyebabkan bercak-bercak coklat pada permukaan daun.',
-                'causes' => 'Disebabkan oleh jamur Helminthosporium turcicum. Kondisi lembab dan suhu hangat mendukung perkembangan penyakit ini.',
-                'symptoms_description' => 'Bercak coklat memanjang pada daun, dimulai dari ujung daun dan menyebar ke pangkal. Daun menjadi kering dan mati.',
-                'control_methods' => '1. Gunakan varietas tahan penyakit
-2. Rotasi tanaman dengan tanaman non-graminae
-3. Aplikasi fungisida berbahan aktif mankozeb atau propikonazol
-4. Sanitasi lahan dengan membersihkan sisa tanaman
-5. Pengaturan jarak tanam yang baik untuk sirkulasi udara',
+                'code' => 'P01',
+                'name' => 'Hawar Daun',
+                'description' => 'Penyakit hawar daun adalah salah satu penyakit utama pada tanaman jagung yang disebabkan oleh jamur. Penyakit ini dapat menyebabkan penurunan hasil yang signifikan jika tidak ditangani dengan baik.',
+                'causes' => 'Disebabkan oleh jamur Exserohilum turcicum (Helminthosporium turcicum). Kondisi lembab dengan kelembaban tinggi (>80%) dan suhu 18-27°C sangat mendukung perkembangan penyakit ini.',
+                'symptoms_description' => 'Bercak lonjong keabu-abuan pada daun, daun mengering dimulai dari ujung daun, biji pada tongkol tidak terisi penuh akibat gangguan fotosintesis.',
+                'control_methods' => '1. Gunakan varietas jagung yang tahan terhadap hawar daun
+2. Rotasi tanaman dengan tanaman non-graminae (kacang-kacangan, umbi-umbian)
+3. Aplikasi fungisida berbahan aktif mankozeb atau klorotalonil setiap 7-10 hari
+4. Sanitasi lahan dengan membersihkan sisa-sisa tanaman setelah panen
+5. Pengaturan jarak tanam yang tepat (75x25 cm) untuk sirkulasi udara yang baik
+6. Pemupukan berimbang untuk meningkatkan ketahanan tanaman',
             ],
             [
-                'code' => 'P002',
-                'name' => 'Bulai (Downy Mildew)',
-                'description' => 'Penyakit sistemik yang disebabkan oleh jamur yang menyerang seluruh bagian tanaman jagung dari akar hingga tongkol.',
-                'causes' => 'Disebabkan oleh jamur Peronosclerospora maydis. Kelembaban tinggi dan suhu 20-30°C sangat mendukung perkembangan penyakit.',
-                'symptoms_description' => 'Daun menguning dengan garis-garis putih sejajar tulang daun. Pertumbuhan tanaman terhambat, tongkol tidak terbentuk atau abnormal.',
-                'control_methods' => '1. Gunakan benih bersertifikat dan varietas tahan
-2. Perlakuan benih dengan fungisida metalaksil
-3. Aplikasi fungisida sistemik saat gejala awal
-4. Pengaturan drainase yang baik
-5. Eradikasi tanaman terserang
-6. Rotasi tanaman',
+                'code' => 'P02',
+                'name' => 'Karat Daun',
+                'description' => 'Penyakit karat daun disebabkan oleh jamur Puccinia sorghi yang menyerang daun jagung. Penyakit ini ditandai dengan munculnya serbuk berwarna karat pada permukaan daun yang dapat mengurangi kemampuan fotosintesis tanaman.',
+                'causes' => 'Disebabkan oleh jamur Puccinia sorghi. Kondisi lembab dengan embun pagi, kelembaban tinggi (85-95%), dan suhu sedang (20-25°C) sangat mendukung perkembangan dan penyebaran spora jamur.',
+                'symptoms_description' => 'Terdapat serbuk berwarna karat (orange-coklat) pada permukaan daun, bercak kecil basah seperti embun tepung di daun, spora mudah rontok jika daun disentuh.',
+                'control_methods' => '1. Aplikasi fungisida sistemik berbahan aktif propikonazol atau tebukonazol
+2. Penanaman varietas jagung yang tahan terhadap karat daun
+3. Pengaturan jarak tanam untuk sirkulasi udara yang baik
+4. Hindari penyiraman dari atas (overhead irrigation) yang dapat menyebarkan spora
+5. Pemupukan berimbang terutama kalium untuk meningkatkan ketahanan tanaman
+6. Monitoring rutin dan aplikasi fungisida pada gejala awal',
             ],
             [
-                'code' => 'P003',
-                'name' => 'Karat Daun (Rust)',
-                'description' => 'Penyakit yang menyebabkan bintik-bintik karat berwarna coklat kemerahan pada permukaan daun jagung.',
-                'causes' => 'Disebabkan oleh jamur Puccinia sorghi. Kondisi lembab dengan embun pagi dan suhu sedang mendukung infeksi.',
-                'symptoms_description' => 'Bintik-bintik kecil berwarna coklat kemerahan pada kedua permukaan daun. Spora mudah rontok jika disentuh.',
-                'control_methods' => '1. Aplikasi fungisida berbahan aktif triazol
-2. Penanaman varietas tahan karat
-3. Pengaturan jarak tanam untuk sirkulasi udara
-4. Pemupukan berimbang untuk meningkatkan ketahanan
-5. Monitoring rutin dan aplikasi dini',
-            ],
-            [
-                'code' => 'P004',
-                'name' => 'Busuk Batang (Stalk Rot)',
-                'description' => 'Penyakit yang menyerang batang jagung menyebabkan pembusukan dan rebahnya tanaman.',
-                'causes' => 'Disebabkan oleh kompleks jamur Fusarium, Diplodia, dan Macrophomina. Stress tanaman dan kondisi kering mendukung infeksi.',
-                'symptoms_description' => 'Batang menjadi lunak dan mudah patah. Bagian dalam batang berwarna coklat dan berongga. Tanaman mudah rebah.',
-                'control_methods' => '1. Pemupukan berimbang terutama kalium
-2. Pengairan yang cukup saat fase kritis
-3. Hindari kerusakan mekanis pada batang
-4. Panen tepat waktu
-5. Rotasi tanaman
-6. Gunakan varietas tahan',
-            ],
-            [
-                'code' => 'P005',
-                'name' => 'Hawar Daun (Leaf Blight)',
-                'description' => 'Penyakit yang menyebabkan layu dan matinya daun jagung secara bertahap dari bawah ke atas.',
-                'causes' => 'Disebabkan oleh jamur Exserohilum turcicum. Kelembaban tinggi dan suhu 18-27°C mendukung perkembangan.',
-                'symptoms_description' => 'Bercak memanjang berwarna abu-abu hingga coklat pada daun. Daun mengering dari ujung dan tepi.',
-                'control_methods' => '1. Aplikasi fungisida preventif
-2. Penggunaan varietas toleran
-3. Sanitasi kebun
-4. Pengaturan populasi tanaman
-5. Pemupukan berimbang',
+                'code' => 'P03',
+                'name' => 'Busuk Pangkal Batang',
+                'description' => 'Penyakit busuk pangkal batang disebabkan oleh jamur tanah yang menyerang sistem perakaran dan pangkal batang. Penyakit ini sangat berbahaya karena dapat menyebabkan kematian tanaman secara keseluruhan.',
+                'causes' => 'Disebabkan oleh kompleks jamur tanah seperti Fusarium spp., Pythium spp., dan Rhizoctonia solani. Kondisi tanah yang tergenang air, drainase buruk, dan kelembaban tanah yang tinggi mendukung perkembangan penyakit.',
+                'symptoms_description' => 'Pangkal batang membusuk dan berwarna gelap (coklat kehitaman), tanaman layu secara keseluruhan meskipun kondisi air cukup, akar menjadi coklat dan mudah putus.',
+                'control_methods' => '1. Perbaiki sistem drainase lahan untuk mencegah genangan air
+2. Buang dan musnahkan tanaman yang terinfeksi dengan cara dibakar
+3. Aplikasi fungisida berbahan aktif metalaksil atau fosetil-aluminium pada tanah
+4. Gunakan benih bersertifikat dan sehat
+5. Lakukan pengolahan tanah yang baik dengan penambahan bahan organik
+6. Aplikasi pupuk organik untuk meningkatkan kesehatan dan struktur tanah
+7. Rotasi tanaman dengan tanaman yang tidak rentan terhadap jamur tanah',
             ],
         ];
 
