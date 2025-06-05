@@ -141,32 +141,117 @@
                 </div>
             </div>
 
-            <div class="text-center space-y-4">
+            <!-- Action Buttons -->
+            <div class="bg-gray-50 rounded-lg p-6 text-center">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                    Langkah Selanjutnya
+                </h3>
+
                 @if(!empty($results))
-                    <!-- Export PDF Button -->
-                    <div class="mb-4">
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6 max-w-md mx-auto">
+                        <!-- Download PDF Button -->
                         <a href="{{ route('diagnosis.export.session.pdf') }}"
-                           class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-700 transition duration-200 mr-4">
+                           class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
                             <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                             </svg>
                             Download PDF
                         </a>
-                        <span class="text-sm text-gray-500">
-                            Simpan hasil diagnosis dalam format PDF
-                        </span>
+
+                        <!-- Diagnosis Ulang Button -->
+                        <a href="{{ route('diagnosis.index') }}"
+                           class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            </svg>
+                            Diagnosis Ulang
+                        </a>
                     </div>
+
+                    <!-- Helper Text -->
+                    <div class="text-sm text-gray-600 space-y-2">
+                        <p class="flex items-center justify-center">
+                            <svg class="h-4 w-4 mr-2 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            <strong>Download PDF</strong> untuk menyimpan hasil diagnosis sebagai dokumentasi
+                        </p>
+                        <p class="flex items-center justify-center">
+                            <svg class="h-4 w-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            </svg>
+                            <strong>Diagnosis Ulang</strong> untuk melakukan diagnosis dengan gejala yang berbeda
+                        </p>
+                    </div>
+                @else
+                    <!-- Only Diagnosis Ulang for empty results -->
+                    <div class="mb-4">
+                        <a href="{{ route('diagnosis.index') }}"
+                           class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            </svg>
+                            Coba Diagnosis Lagi
+                        </a>
+                    </div>
+                    <p class="text-sm text-gray-600">
+                        Silakan coba lagi dengan memilih gejala yang berbeda atau lebih spesifik
+                    </p>
                 @endif
 
-                <div>
-                    <a href="{{ route('diagnosis.index') }}"
-                       class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700 transition duration-200">
-                        <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                        </svg>
-                        Diagnosis Ulang
-                    </a>
-                </div>
+                <!-- User Authentication Section -->
+                @guest
+                    <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                        <div class="flex items-center">
+                            <svg class="h-5 w-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <div class="flex-1">
+                                <h4 class="text-sm font-medium text-blue-900">
+                                    Ingin menyimpan riwayat diagnosis?
+                                </h4>
+                                <p class="text-sm text-blue-700 mt-1">
+                                    Daftar atau masuk untuk menyimpan dan mengakses riwayat diagnosis Anda kapan saja.
+                                </p>
+                            </div>
+                            <div class="ml-4 flex gap-2">
+                                <a href="{{ route('login') }}"
+                                   class="inline-flex items-center px-3 py-2 border border-blue-300 text-sm font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 transition duration-150">
+                                    Masuk
+                                </a>
+                                <a href="{{ route('register') }}"
+                                   class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition duration-150">
+                                    Daftar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <div class="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                        <div class="flex items-center">
+                            <svg class="h-5 w-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <div class="flex-1">
+                                <h4 class="text-sm font-medium text-green-900">
+                                    Diagnosis tersimpan!
+                                </h4>
+                                <p class="text-sm text-green-700 mt-1">
+                                    Hasil diagnosis ini telah disimpan dalam riwayat Anda. Anda dapat mengaksesnya kapan saja.
+                                </p>
+                            </div>
+                            <div class="ml-4">
+                                <a href="{{ route('user.history') }}"
+                                   class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 transition duration-150">
+                                    <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    Lihat Riwayat
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @endguest
             </div>
         </div>
 

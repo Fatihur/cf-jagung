@@ -114,19 +114,52 @@ class DiagnosisResource extends Resource
 
                 Tables\Columns\TextColumn::make('selected_symptoms')
                     ->label('Jumlah Gejala')
-                    ->formatStateUsing(fn ($state) => is_array($state) ? count($state) : 0),
+                    ->getStateUsing(function ($record) {
+                        $symptoms = $record->selected_symptoms;
+
+                        // Debug: Check what type of data we have
+                        if (is_array($symptoms)) {
+                            $count = count($symptoms);
+                        } elseif (is_string($symptoms)) {
+                            $decoded = json_decode($symptoms, true);
+                            $count = is_array($decoded) ? count($decoded) : 0;
+                        } else {
+                            $count = 0;
+                        }
+
+                        return $count . ' gejala';
+                    })
+                    ->badge()
+                    ->color('info'),
 
                 Tables\Columns\TextColumn::make('results')
                     ->label('Hasil Teratas')
-                    ->formatStateUsing(function ($state) {
-                        if (is_array($state) && !empty($state) && isset($state[0])) {
-                            $top = $state[0];
+                    ->getStateUsing(function ($record) {
+                        $results = $record->results;
+
+                        // Handle array data
+                        if (is_array($results) && !empty($results) && isset($results[0])) {
+                            $top = $results[0];
                             if (isset($top['disease']['name']) && isset($top['percentage'])) {
                                 return $top['disease']['name'] . ' (' . $top['percentage'] . '%)';
                             }
                         }
+
+                        // Handle JSON string data
+                        if (is_string($results)) {
+                            $decoded = json_decode($results, true);
+                            if (is_array($decoded) && !empty($decoded) && isset($decoded[0])) {
+                                $top = $decoded[0];
+                                if (isset($top['disease']['name']) && isset($top['percentage'])) {
+                                    return $top['disease']['name'] . ' (' . $top['percentage'] . '%)';
+                                }
+                            }
+                        }
+
                         return '-';
-                    }),
+                    })
+                    ->badge()
+                    ->color('success'),
 
                 Tables\Columns\TextColumn::make('user_ip')
                     ->label('IP Address')

@@ -29,4 +29,29 @@ class Diagnosis extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Get symptoms count for display
+     */
+    public function getSymptomsCountAttribute()
+    {
+        if (is_array($this->selected_symptoms)) {
+            return count($this->selected_symptoms);
+        }
+        return 0;
+    }
+
+    /**
+     * Get top result for display
+     */
+    public function getTopResultAttribute()
+    {
+        if (is_array($this->results) && !empty($this->results)) {
+            $top = $this->results[0];
+            if (isset($top['disease']['name']) && isset($top['percentage'])) {
+                return $top['disease']['name'] . ' (' . $top['percentage'] . '%)';
+            }
+        }
+        return '-';
+    }
 }

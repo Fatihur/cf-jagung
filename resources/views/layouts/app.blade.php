@@ -13,7 +13,23 @@
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
 
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @if(app()->environment('local'))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @else
+        @if(file_exists(public_path('build/manifest.json')))
+            @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @else
+            <!-- Fallback CSS for production without build -->
+            <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+            <style>
+                /* Custom styles fallback */
+                .bg-primary { background-color: #10b981; }
+                .text-primary { color: #10b981; }
+                .border-primary { border-color: #10b981; }
+                .hover\:bg-primary:hover { background-color: #059669; }
+            </style>
+        @endif
+    @endif
 
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -318,7 +334,7 @@
                 </div>
                 <div class="border-t border-gray-200 mt-8 pt-8 text-center">
                     <p class="text-gray-500 text-sm">
-                        &copy; {{ date('Y') }} Sistem Pakar Penyakit Jagung. Menggunakan Metode Certainty Factor.
+                        &copy; {{ date('Y') }} Sistem Pakar Penyakit Jagung. Made With ❤️ by Fatih.
                     </p>
                 </div>
             </div>

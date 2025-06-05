@@ -44,7 +44,18 @@
                     </svg>
                 </div>
                 <h3 class="text-lg font-semibold text-gray-900">Gejala Terpilih</h3>
-                <p class="text-2xl font-bold text-green-600">{{ count($diagnosis->selected_symptoms) }}</p>
+                @php
+                    $symptoms = $diagnosis->selected_symptoms;
+                    $count = 0;
+
+                    if (is_array($symptoms)) {
+                        $count = count($symptoms);
+                    } elseif (is_string($symptoms)) {
+                        $decoded = json_decode($symptoms, true);
+                        $count = is_array($decoded) ? count($decoded) : 0;
+                    }
+                @endphp
+                <p class="text-2xl font-bold text-green-600">{{ $count }}</p>
             </div>
             
             <div class="text-center">
@@ -54,16 +65,39 @@
                     </svg>
                 </div>
                 <h3 class="text-lg font-semibold text-gray-900">Hasil Diagnosis</h3>
-                <p class="text-2xl font-bold text-purple-600">{{ count($diagnosis->results) }}</p>
+                @php
+                    $results = $diagnosis->results;
+                    $count = 0;
+
+                    if (is_array($results)) {
+                        $count = count($results);
+                    } elseif (is_string($results)) {
+                        $decoded = json_decode($results, true);
+                        $count = is_array($decoded) ? count($decoded) : 0;
+                    }
+                @endphp
+                <p class="text-2xl font-bold text-purple-600">{{ $count }}</p>
             </div>
         </div>
     </x-card>
 
     <!-- Results -->
-    @if(!empty($diagnosis->results))
+    @php
+        $results = $diagnosis->results;
+        $resultsArray = [];
+
+        if (is_array($results)) {
+            $resultsArray = $results;
+        } elseif (is_string($results)) {
+            $decoded = json_decode($results, true);
+            $resultsArray = is_array($decoded) ? $decoded : [];
+        }
+    @endphp
+
+    @if(!empty($resultsArray))
         <x-card title="Hasil Diagnosis" class="mb-8">
             <div class="space-y-4">
-                @foreach($diagnosis->results as $index => $result)
+                @foreach($resultsArray as $index => $result)
                     <div class="border-l-4 {{ $index === 0 ? 'border-green-500 bg-green-50' : 'border-gray-300 bg-gray-50' }} p-4 rounded-r-lg">
                         <div class="flex items-center justify-between mb-3">
                             <div class="flex items-center gap-3">
@@ -113,7 +147,17 @@
     <x-card title="Gejala yang Dipilih" class="mb-8">
         <div class="flex flex-wrap gap-2">
             @php
-                $selectedSymptoms = \App\Models\Symptom::whereIn('id', $diagnosis->selected_symptoms)->get();
+                $symptoms = $diagnosis->selected_symptoms;
+                $symptomIds = [];
+
+                if (is_array($symptoms)) {
+                    $symptomIds = $symptoms;
+                } elseif (is_string($symptoms)) {
+                    $decoded = json_decode($symptoms, true);
+                    $symptomIds = is_array($decoded) ? $decoded : [];
+                }
+
+                $selectedSymptoms = \App\Models\Symptom::whereIn('id', $symptomIds)->get();
             @endphp
             @foreach($selectedSymptoms as $symptom)
                 <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">

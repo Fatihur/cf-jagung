@@ -11,13 +11,29 @@ class UserHistoryController extends Controller
     /**
      * Display user's diagnosis history
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
 
-        $diagnoses = Diagnosis::where('user_id', $user->id)
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+        $query = Diagnosis::where('user_id', $user->id);
+
+        // Filter by date range
+        if ($request->filled('date_from')) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->whereDate('created_at', '<=', $request->date_to);
+        }
+
+        // Filter by disease (search in results JSON)
+        if ($request->filled('disease')) {
+            $query->where('results', 'like', '%' . $request->disease . '%');
+        }
+
+        $diagnoses = $query->orderBy('created_at', 'desc')
+            ->paginate(10)
+            ->withQueryString();
 
         return view('user.history', compact('diagnoses'));
     }
